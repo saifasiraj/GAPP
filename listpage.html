@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+  <head>
+    <h2>List of Opportunities</h2>
+    <h4>Put in user id to gain access to favorites</h4>
+  </head>
+  <body>
+    <form method = "post">
+      <input type = "text" name = "userID" placeholder="user id">
+      <input type = "submit" value = "Submit">
+    </form>
+    <br>
+    <br>
+
+    {% if userID %}
+    <h2>User ID - {{userID}}</h2>
+    {% endif %}
+    <div class = "container">
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>URL</th>
+          <th>Description</th>
+          <th>Deadline</th>
+          <th>Date</th>
+          {% if userID %}
+          <th>Favorite</th>
+          {% endif %}
+        </tr>
+        {% for opp in opps %}
+        <tr>
+          <td>{{opp.name}}</td>
+          <td>{{opp.url}}</td>
+          <td>{{opp.description}}</td>
+          <td>{{opp.deadline}}</td>
+          <td>{{opp.date}}</td>
+          {% if userID %}
+          <td><button type="button">FAV</button></td>
+          {% endif %}
+
+        </tr>
+        {% endfor %}
+      </table>
+
+    </div>
+  </body>
+</html>
+{% endautoescape %}
