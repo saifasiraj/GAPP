@@ -1,14 +1,30 @@
 <!DOCTYPE html>
 {% autoescape true %}
 <html>
-  <head>
+  <style type="text/css">
+    #container {
+      display: table;
+      width: 100%;
+    }
+    #formfile {
+      display: table-cell;
 
+
+
+    }
+
+
+  </style>
+  <head>
+    <h2>Upload CSV file</h2>
   </head>
   <body>
-    <form enctype="multipart/form-data" method="post">
-      <p>File: <input type="file" name="file"></p>
-      <p><input type="submit" value="Upload"></p>
-    </form>
+    <div id = "container">
+      <form id = "formfile"enctype="multipart/form-data" method="post">
+        <p>File:  <input type="file" name="file"></p>
+        <p><input type="submit" value="Upload"></p>
+      </form>
+    </div>
   </body>
 </html>
 {% endautoescape %}

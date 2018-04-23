@@ -1,9 +1,26 @@
 <!DOCTYPE html>
 {% autoescape true %}
 <html>
+  <style type="text/css">
+      th {
+        background-color: #FF8C00;
+        color: white;
+      }
+      .forms form,
+      .forms form div {
+        display: inline;
+      }
+      .forms button{
+        display: inline;
+        vertical-align: middle;
+      }
+    </style>
+
   <head>
+
     <h2>List of Opportunities</h2>
     <h4>Put in user id to gain access to favorites</h4>
+    <br>
   </head>
   <body>
     <form method = "post">
@@ -12,18 +29,23 @@
     </form>
     <br>
     <div class = "forms">
-
       <form method = "post">
-        <button type = "submit" name = "Clear ID" value = "CledasdaD">Clear ID</button>
+        <div>
+          <button type = "submit" name = "Clear ID" value = "Clear">Clear ID</button>
+        </div>
       </form>
-      <br>
+
       {% if userID %}
       <form method = "post">
-        <button type = "submit" name = "Favorite JSON" value = "Favorite json">Favorite JSON</button>
+        <div>
+          <button type = "submit" name = "Favorite JSON" value = "Favorite json">Favorite JSON</button>
+        </div>
       </form>
-      <br>
+
       <form method = "post">
-        <button type = "submit" name = "Favorite List" value = "Favorite List">Favorites Table</button>
+        <div>
+          <button type = "submit" name = "Favorite List" value = "Favorite List">Favorites Table</button>
+        </div>
       </form>
       {% endif %}
 
@@ -36,7 +58,7 @@
     {% if userID %}
     <h2 id = "id" name = "id" value = "{{userID}}">User ID - {{userID}}</h2>
     {% endif %}
-    <div class = "container">
+    <div class = "table">
       <table>
         <tr>
           <th>Name</th>

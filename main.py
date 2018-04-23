@@ -6,7 +6,7 @@ import json
 
 from google.appengine.ext import ndb
 
-DEFAULT_OPPS = 'OPPLIST_DEF'
+DEFAULT_OPPS = 'OpportunitiesList'
 USERID = "NOUSER"
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -78,7 +78,6 @@ class ListPage(webapp2.RequestHandler):
         def post(self):
             global USERID
             if(self.request.get("Favorite JSON")):
-                print(USERID)
                 self.redirect('/favoritedata')
             elif(self.request.get("Favorite List")):
                 self.redirect('/favorites')
