@@ -2,10 +2,12 @@
 import webapp2
 import jinja2, os
 import csv
+import json
 
 from google.appengine.ext import ndb
 
 DEFAULT_OPPS = 'OPPLIST_DEF'
+USERID = "NOUSER"
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader=jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions=['jinja2.ext.autoescape'],
@@ -27,7 +29,7 @@ class Favorites(ndb.Model):
 
     @classmethod
     def favoritesquery(self, userID):
-        return self.query(ancestor = userID)
+        return self.query(ancestor = ndb.Key("Users", userID))
 
 
 
@@ -74,26 +76,58 @@ class ListPage(webapp2.RequestHandler):
             self.response.write(template.render(opps = a))
 
         def post(self):
-
-            userID = self.request.get('userID')
+            global USERID
+            if(self.request.get("Favorite JSON")):
+                print(USERID)
+                self.redirect('/favoritedata')
+            elif(self.request.get("Favorite List")):
+                self.redirect('/favorites')
+            elif(self.request.get("Clear ID")):
+                USERID = None
+            elif(self.request.get("Return")):
+                USERID = self.request.get("Return")
+            elif(self.request.get("favbtn")):
+                tempuid = self.request.get("favbtn")
+                self.response.write(tempuid)
+                q = Opportunities.query(Opportunities.uid == tempuid).fetch()
+                for opps in q:
+                    favEntry = Favorites(parent=ndb.Key("Users", USERID))
+                    favEntry.opp = opps
+                    favEntry.put()
+                self.redirect('/favorites')
+            else:
+                USERID = self.request.get('userID')
             template = JINJA_ENVIRONMENT.get_template('listpage.html')
             a = Opportunities.query(ancestor=ndb.Key("OppList", DEFAULT_OPPS)).fetch()
 
 
-            self.response.write(template.render(opps = a, userID = userID))
+            self.response.write(template.render(opps = a, userID = USERID))
+
+class FavPage(webapp2.RequestHandler):
+        def get(self):
+            global USERID
+
+            template = JINJA_ENVIRONMENT.get_template('favorites.html')
+            favopps = Favorites.favoritesquery(USERID).fetch()
+
+            self.response.write(template.render(opps = favopps, userID = USERID))
+
+class FavJSON(webapp2.RequestHandler):
+    def get(self):
+        global USERID
+        favopps = Favorites.favoritesquery(USERID).fetch()
+        self.response.write(json.dumps([p.to_dict() for p in favopps]))
 
 
 
 
 
-            #userID = self.request.get('userID')
-            #userIDKey = ndb.Key("User", userID)
-            #listofFavorites = Favorites.favoritesquery(userIDKey).fetch()
-            #self.response.write("DONE2323")
 
 
 
 app = webapp2.WSGIApplication([
     ('/', MainPage),
-    ('/opportunities', ListPage)
+    ('/opportunities', ListPage),
+    ('/favorites', FavPage),
+    ('/favoritedata', FavJSON)
 ], debug=True)

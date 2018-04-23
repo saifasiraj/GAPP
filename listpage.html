@@ -11,10 +11,30 @@
       <input type = "submit" value = "Submit">
     </form>
     <br>
+    <div class = "forms">
+
+      <form method = "post">
+        <button type = "submit" name = "Clear ID" value = "CledasdaD">Clear ID</button>
+      </form>
+      <br>
+      {% if userID %}
+      <form method = "post">
+        <button type = "submit" name = "Favorite JSON" value = "Favorite json">Favorite JSON</button>
+      </form>
+      <br>
+      <form method = "post">
+        <button type = "submit" name = "Favorite List" value = "Favorite List">Favorites Table</button>
+      </form>
+      {% endif %}
+
+    </div>
+
+
+    <br>
     <br>
 
     {% if userID %}
-    <h2>User ID - {{userID}}</h2>
+    <h2 id = "id" name = "id" value = "{{userID}}">User ID - {{userID}}</h2>
     {% endif %}
     <div class = "container">
       <table>
@@ -36,7 +56,9 @@
           <td>{{opp.deadline}}</td>
           <td>{{opp.date}}</td>
           {% if userID %}
-          <td><button type="button">FAV</button></td>
+          <td><form method = "post">
+            <button type="submit" name="favbtn" value = "{{opp.uid}}">FAV
+            </button></form></td>
           {% endif %}
 
         </tr>

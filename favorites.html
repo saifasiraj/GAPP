@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+{% autoescape true %}
+<html>
+  <head>
+    <h2>Favorites for User {{userID}}</h2>
+    <form method = "post" action = "opportunities">
+      <button type = "submit" name = "Return" value = "{{userID}}">Return</button>
+    </form>
+    <br>
+    <br>
+
+  </head>
+  <body>
+    <div class = "container">
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>URL</th>
+          <th>Description</th>
+          <th>Deadline</th>
+          <th>Date</th>
+        </tr>
+        {% for op in opps %}
+        <tr>
+          <td>{{op.opp.name}}</td>
+          <td>{{op.opp.url}}</td>
+          <td>{{op.opp.description}}</td>
+          <td>{{op.opp.deadline}}</td>
+          <td>{{op.opp.date}}</td>
+        </tr>
+        {% endfor %}
+      </table>
+
+    </div>
+  </body>
+</html>
+{% endautoescape %}
